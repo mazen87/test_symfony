@@ -17,7 +17,8 @@ COPY ./docker/config/php.ini-production $PHP_INI_DIR/php.ini
 
 # Install php extensions
 RUN pecl install -f xdebug-3.0.4 \
-    && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && docker-php-ext-install pdo pdo_mysql opcache
 
 # Set Apache configuration
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
