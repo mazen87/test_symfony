@@ -102,7 +102,9 @@ class Book
 
     public function getSummary()
     {
-        return $this->summary;
+        if (!empty($this->summary)) {
+            return stream_get_contents($this->summary);
+        }
     }
 
     public function setSummary($summary): self
