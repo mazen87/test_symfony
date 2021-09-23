@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} | All Books{% endblock %}
+
+{% block body %}
+    <h1> All Books </h1>
+     <div class="card-group">
+     {% if books %}
+     {% for book in books %}
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <span class="card-title">{{book.title}}</span>
+                  </li>
+                  <li class="list-group-item">
+                    <span class="card-title">{{book.author}}</span>
+                  </li>
+                  <li class="list-group-item">
+                       <span class="card-title"> {{book.summary}}</span>
+                  </li> 
+                  <li class="list-group-item">
+                       <span class="card-title"> {{book.isbn13}}</span>
+                  </li> 
+                   <li class="list-group-item">
+                       <span class="card-title"> {{book.date | date("d/m/y")}}</span>
+                  </li> 
+                  {% if book.url is not empty  %}
+                    <li class="list-group-item">
+                       <span class="card-title"> {{book.url}}</span>
+                  </li>          
+                  {% endif %}
+                    <li class="list-group-item">
+                       <a href="{{path('book_edit',{'id':book.id})}}" class="btn btn-primary" > Edit </a>
+                       <button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+                        data-bs-target="#staticBackdrop" data-bs-whatever={{book.id}}>
+                                Delete
+                        </button>
+                    </li>
+              </ul>
+            </div>
+            </div>
+        </div>
+      {% endfor %}  
+             <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
+                            aria-labelledby="staticBackdropLabel" aria-hidden="true"  >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Test_symfony</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sur that you want to delete this element ?           
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <a id="linkToDelete" href="#" onClick="goToDelete()" type="button" class="btn btn-primary">
+                                        Delete
+                                    </a>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+      {% endif %}
+     </div>
+        <div id="paginator">
+            {{ knp_pagination_render(books)}}
+        </div>
+       <script>
+            var exampleModal = document.getElementById('staticBackdrop')
+            if(exampleModal){
+                exampleModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget
+                var recipient = button.getAttribute('data-bs-whatever')
+
+                var modalTitle = exampleModal.querySelector('.modal-title')
+                var modalBodyInput = exampleModal.querySelector('.modal-body input')
+                goToDelete = () => {
+                            window.location.replace("http://localhost:8000/delete/"+Number(recipient));
+                        }
+                })
+            }     
+       </script>
+{% endblock %}
