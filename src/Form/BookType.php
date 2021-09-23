@@ -66,7 +66,7 @@ class BookType extends AbstractType
                 DateType::class,
                 [
                     'widget' => 'choice',
-                    'input'  => 'datetime_immutable'
+
                 ]
             )
             ->add(
