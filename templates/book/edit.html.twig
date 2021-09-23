@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} | Edit Book{% endblock %}
+
+{% block body %}
+    <h1> Edit Book </h1>
+    <div id="formContainer">
+        <div class="form-group col-md-4 center" id="formCard">
+            {{ form_start(edit_book_form)}}
+            {{ form_widget(edit_book_form)}}
+            <input type="submit" value="Edit Book" class="btn btn-dark" />
+            {{ form_end(edit_book_form)}}
+        </div>
+    </div>    
+{% endblock %}
