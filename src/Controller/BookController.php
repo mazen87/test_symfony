@@ -16,10 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/add", name="home")
      */
     public function index(Request $request, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $book = new Book();
         $bookFormAdd = $this->createForm(BookType::class, $book);
         $bookFormAdd->handleRequest($request);
@@ -45,6 +46,7 @@ class BookController extends AbstractController
     public function editBook(Book $book, Request $request, EntityManagerInterface $em): Response
     {
 
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $bookEditForm = $this->createForm(BookType::class, $book);
         $bookEditForm->handleRequest($request);
         if ($bookEditForm->isSubmitted() && $bookEditForm->isValid()) {
@@ -69,6 +71,7 @@ class BookController extends AbstractController
      */
     public function allBook(Request $request, BookRepository $bookRepo, PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         try {
             $donnees = $bookRepo->findAll();
             $books = $paginator->paginate($donnees, $request->query->getInt('page', 1), 4);
@@ -85,7 +88,9 @@ class BookController extends AbstractController
      */
     public function deleteBook(Book $book, EntityManagerInterface $em)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         try {
+
             $em->remove($book);
             $em->flush();
             $this->addFlash('success', 'Book has deleted successfully !');
