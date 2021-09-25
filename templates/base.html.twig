@@ -68,7 +68,12 @@
                         <a class="navbar-brand" href="{{path('home')}}">Home</a>
                     </div>
                     <div class="flex-end">
+                    {% if app.user %}
+                        <span style="color:white;">Welcome {{app.user.email}}</span><span> | </span>
+                        <a class="navbar-brand" href="{{path('app_logout')}}">Sign out</a><span> | </span>
+                        <a class="navbar-brand" href="{{path('user_profile',{'id': app.user.id})}}">My Profile</a><span> | </span>
                         <a class="navbar-brand" href="{{path('book_all')}}">All Books</a>
+                    {% endif %}
                     </div>
                 </div>
             </nav>
